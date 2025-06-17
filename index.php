@@ -133,21 +133,23 @@ if (!$conn->connect_error) {
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="registerPassword" placeholder="Create a secure password" required>
+                <input type="password" name="registerPassword" id="registerPassword" placeholder="Create a secure password" required>
+                <div id="passwordError" class="text-danger small"></div>
             </div>
             <div class="form-group">
                 <label>Confirm Password</label>
-                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm your password" required>
             </div>
-            <div class="form-group" style="margin-bottom: 8px; display: flex; align-items: center;">
-                <label for="acceptTerms" style="font-size:0.97em; display: flex; align-items: center; gap: 7px; margin-bottom:0;">
-                    <input type="checkbox" id="acceptTerms" required style="margin:0;">
-                    I accept the 
-                    <button type="button" id="showTermsBtn" style="background:none;border:none;color:#40534b;text-decoration:underline;cursor:pointer;padding:0;font-size:1em;">
-                        Terms and Conditions
-                    </button>
-                </label>
-            </div>
+            
+            <div class="form-group" style="margin-bottom: 8px; display: flex; align-items: flex-start; justify-content: flex-start;">
+  <label for="acceptTerms" style="font-size: 0.97em; display: flex; align-items: center; gap: 3px; margin-bottom: 0;">
+    <input type="checkbox" id="acceptTerms" required >
+    I accept the
+    <button type="button" id="showTermsBtn" style="background: none; border: none; color: #40534b; text-decoration: underline; cursor: pointer; padding: 0; font-size: 1em; margin: 0;">
+      Terms and Conditions
+    </button>
+  </label>
+</div>
             <button type="submit" class="auth-btn" id="registerBtn">
                 <i class="fas fa-user-plus"></i>
                 Create Account
@@ -1183,51 +1185,122 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // AJAX check for fullname/email existence on registration
 document.addEventListener("DOMContentLoaded", function() {
-        const registerName = document.getElementById("registerName");
-        const registerEmail = document.getElementById("registerEmail");
-        const fullnameError = document.getElementById("fullnameError");
-        const emailError = document.getElementById("emailError");
+    const registerName = document.getElementById("registerName");
+    const registerEmail = document.getElementById("registerEmail");
+    const fullnameError = document.getElementById("fullnameError");
+    const emailError = document.getElementById("emailError");
 
-        if (registerName) {
-            registerName.addEventListener("blur", function() {
-                const name = registerName.value.trim();
-                if (!name) return;
-                fetch('logging/fullname.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: 'fullname=' + encodeURIComponent(name)
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.exists && data.field === 'fullname') {
-                        fullnameError.textContent = data.message;
-                    } else {
-                        fullnameError.textContent = '';
-                    }
-                });
+    if (registerName) {
+        registerName.addEventListener("blur", function() {
+            const name = registerName.value.trim();
+            if (!name) return;
+            fetch('logging/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'fullname=' + encodeURIComponent(name)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.exists && data.field === 'fullname') {
+                    fullnameError.textContent = data.message;
+                } else {
+                    fullnameError.textContent = '';
+                }
+            })
+            .catch(err => {
+                console.error("Error checking fullname:", err);
+                fullnameError.textContent = "An error occurred. Please try again.";
             });
-        }
+        });
+    }
 
-        if (registerEmail) {
-            registerEmail.addEventListener("blur", function() {
-                const email = registerEmail.value.trim();
-                if (!email) return;
-                fetch('logging/fullname.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: 'email=' + encodeURIComponent(email)
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.exists && data.field === 'email') {
-                        emailError.textContent = data.message;
-                    } else {
-                        emailError.textContent = '';
-                    }
-                });
+    if (registerEmail) {
+        registerEmail.addEventListener("blur", function() {
+            const email = registerEmail.value.trim();
+            if (!email) return;
+            fetch('logging/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'email=' + encodeURIComponent(email)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.exists && data.field === 'email') {
+                    emailError.textContent = data.message;
+                } else {
+                    emailError.textContent = '';
+                }
+            })
+            .catch(err => {
+                console.error("Error checking email:", err);
+                emailError.textContent = "An error occurred. Please try again.";
             });
-        }
-    });
+        });
+    }
+
+    const registerPassword = document.getElementById("registerPassword");
+    const passwordError = document.getElementById("passwordError");
+
+    if (registerPassword) {
+        registerPassword.addEventListener("blur", function() {
+            const password = registerPassword.value.trim();
+            if (password.length > 0 && password.length < 8) {
+                passwordError.textContent = "Password must be at least 8 characters.";
+            } else {
+                passwordError.textContent = "";
+            }
+        });
+    }
+});
+
+// Debugging login process
+document.addEventListener("DOMContentLoaded", function() {
+    const loginForm = document.querySelector(".auth-form");
+    const loginFullname = document.getElementById("loginFullname");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginFullnameError = document.getElementById("loginFullnameError");
+
+    if (loginForm) {
+        loginForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            const fullname = loginFullname.value.trim();
+            const password = loginPassword.value.trim();
+
+            fetch('logging/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `fullname=${encodeURIComponent(fullname)}&password=${encodeURIComponent(password)}`
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    console.log("Login successful:", data); // Debugging: Log successful response
+                    document.getElementById("profileText").textContent = data.firstName;
+                    document.getElementById("profileAvatar").innerHTML = data.initials;
+                    let navbarUser = document.querySelector(".navbar-username");
+                    if (navbarUser) navbarUser.textContent = data.fullname;
+                    document.getElementById("loginSuccess").classList.add("show");
+                    setTimeout(() => {
+                        closeAuthModal();
+                        location.reload();
+                    }, 1000);
+                } else {
+                    loginFullnameError.textContent = data.message || "Login failed. Please check your credentials.";
+                    console.error("Login failed:", data); // Debugging: Log failed response
+                }
+            })
+            .catch(err => {
+                console.error("Error during login:", err); // Debugging: Log error details
+                loginFullnameError.textContent = "An error occurred. Please try again.";
+            });
+        });
+    }
+});
 </script>
 </body>
 </html>

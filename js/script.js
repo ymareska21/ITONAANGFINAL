@@ -618,6 +618,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.PHP_USER_ID) {
       currentUser.id = window.PHP_USER_ID;
     }
+  } else {
+    console.error("PHP_IS_LOGGED_IN is false or undefined.");
   }
   loadCart();
   updateCartCount();
