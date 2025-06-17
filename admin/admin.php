@@ -162,18 +162,19 @@ function fetch_products_with_sales() {
                     
                     <!-- Orders Table (Dynamic from transactions) -->
                     <div class="table-container">
-                        <table class="orders-table" border="1" cellpadding="8" cellspacing="0" style="width:100%;border-collapse:collapse;">
-                            <thead>
-                                <tr>
-                                    <th>Reference Number</th>
-                                    <th style="text-align:center;">Item</th>
-                                    <th style="text-align:center;">Quantity</th>
-                                    <th>Customer</th>
-                                    <th>Total</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <table class="orders-table" border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse:collapse; font-family: Arial, sans-serif; font-size: 14px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); border: 1px solid #e5e7eb;">
+    <thead style="background-color: #f9fafb; text-align: left;">
+        <tr style="border-bottom: 2px solid #e5e7eb;">
+            <th style="padding: 12px 16px; color: #111827;">Reference Number</th>
+            <th style="padding: 12px 16px; color: #111827; text-align:center;">Item</th>
+            <th style="padding: 12px 16px; color: #111827; text-align:center;">Quantity</th>
+            <th style="padding: 12px 16px; color: #111827;">Customer</th>
+            <th style="padding: 12px 16px; color: #111827;">Total</th>
+            <th style="padding: 12px 16px; color: #111827;">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+
                                 <?php
                                 $orders = fetch_pickedup_orders();
                                 if (empty($orders)) {
@@ -332,90 +333,107 @@ function fetch_products_with_sales() {
                                     </td>
                                     <td><?= (int)$product['sales'] ?></td>
                                     <td>
-                                        <div class="action-menu" style="position:relative;">
-                                            <button class="action-btn" type="button">⋮</button>
-                                            <div class="dropdown-menu" style="display:none;position:absolute;z-index:10;right:0;">
-                                                <button type="button" class="menu-item edit-product-btn">Edit</button>
-                                                <button type="button" class="menu-item toggle-status-btn">
-                                                    Set <?= $product['status'] === 'active' ? 'Inactive' : 'Active' ?>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
+  <div class="action-menu" style="position: relative;">
+    <button class="action-btn" type="button"
+      style="background-color: #f3f4f6; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 20px; cursor: pointer;">
+      ⋮
+    </button>
+
+    <div class="dropdown-menu"
+      style="display: none; position: absolute; z-index: 10; left: -160px; top: 0; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 10px 16px; display: flex; flex-direction: row; gap: 12px; min-width: 150px;">
+      
+      <button type="button" class="menu-item edit-product-btn"
+        style="flex: 1; padding: 10px 16px; background: none; border: none; font-size: 14px; color: #374151; cursor: pointer; white-space: nowrap;">
+        Edit
+      </button>
+
+      <button type="button" class="menu-item toggle-status-btn"
+        style="flex: 1; padding: 10px 16px; background: none; border: none; font-size: 14px; color: #2563eb; cursor: pointer; white-space: nowrap;">
+        Set <?= $product['status'] === 'active' ? 'Inactive' : 'Active' ?>
+      </button>
+
+    </div>
+  </div>
+</td>
+
+
+
+
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
                    
-                    <!-- Add Product Modal -->
-                    <div id="addProductModal" class="modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;align-items:center;justify-content:center;background:rgba(0,0,0,0.15);">
-                        <div class="modal-content" style="background:#fff;padding:32px 28px;border-radius:18px;max-width:420px;width:100%;position:relative;">
-                            <button id="closeAddProductModal" type="button" style="position:absolute;top:18px;right:18px;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
-                            <h2 style="margin-bottom:18px;">Add New Product</h2>
-                            <form id="addProductForm" enctype="multipart/form-data" method="post" action="adding/add_products.php">
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Product ID</label>
-                                    <input type="text" name="id" required class="form-control" placeholder="Unique ID">
-                                </div>
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Name</label>
-                                    <input type="text" name="name" required class="form-control" placeholder="Product Name">
-                                </div>
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Description</label>
-                                    <textarea name="description" required class="form-control" placeholder="Description"></textarea>
-                                </div>
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Price</label>
-                                    <input type="number" name="price" step="0.01" required class="form-control" placeholder="Price">
-                                </div>
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Category</label>
-                                    <input type="text" name="category" required class="form-control" placeholder="Category">
-                                </div>
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Image</label>
-                                    <input type="file" name="image" accept="image/*" required class="form-control">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label>Status</label>
-                                    <select name="status" class="form-control">
-                                        <option value="active" selected>Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn-primary" style="width:100%;">Add Product</button>
-                            </form>
-                            <div id="addProductResult" style="margin-top:12px;color:#059669;font-weight:600;"></div>
-                        </div>
-                    </div>
+                   <!-- Add Product Modal -->
+<div id="addProductModal" class="modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;align-items:center;justify-content:center;background:rgba(0,0,0,0.15);">
+    <div class="modal-content" style="background:#ffffff;padding:32px 28px;border-radius:20px;max-width:440px;width:100%;position:relative;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+        <button id="closeAddProductModal" type="button" style="position:absolute;top:18px;right:18px;font-size:1.5rem;background:none;border:none;color:#555;cursor:pointer;">&times;</button>
+        <h2 style="margin-bottom:24px;font-size:1.5rem;font-weight:600;color:#222;">Add New Product</h2>
+        <form id="addProductForm" enctype="multipart/form-data" method="post" action="adding/add_products.php">
+            <div class="form-group" style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#333;">Product ID</label>
+                <input type="text" name="id" required class="form-control" placeholder="Unique ID" style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:0.95rem;">
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#333;">Name</label>
+                <input type="text" name="name" required class="form-control" placeholder="Product Name" style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:0.95rem;">
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#333;">Description</label>
+                <textarea name="description" required class="form-control" placeholder="Description" style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:0.95rem;resize:vertical;"></textarea>
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#333;">Price</label>
+                <input type="number" name="price" step="0.01" required class="form-control" placeholder="Price" style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:0.95rem;">
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#333;">Category</label>
+                <input type="text" name="category" required class="form-control" placeholder="Category" style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:0.95rem;">
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#333;">Image</label>
+                <input type="file" name="image" accept="image/*" required class="form-control" style="width:100%;padding:8px 0;border:none;">
+            </div>
+            <div class="form-group" style="margin-bottom:20px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#333;">Status</label>
+                <select name="status" class="form-control" style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:0.95rem;">
+                    <option value="active" selected>Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%;padding:12px 0;border:none;border-radius:10px;background:#059669;color:white;font-weight:600;font-size:1rem;cursor:pointer;">Add Product</button>
+        </form>
+        <div id="addProductResult" style="margin-top:14px;color:#059669;font-weight:600;font-size:0.95rem;"></div>
+    </div>
+</div>
 
-                    <!-- Edit Product Modal -->
-                    <div id="editProductModal" class="modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;align-items:center;justify-content:center;background:rgba(0,0,0,0.15);">
-                        <div class="modal-content" style="background:#fff;padding:32px 28px;border-radius:18px;max-width:420px;width:100%;position:relative;">
-                            <button id="closeEditProductModal" type="button" style="position:absolute;top:18px;right:18px;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
-                            <h2 style="margin-bottom:18px;">Edit Product</h2>
-                            <form id="editProductForm" method="post">
-                                <input type="hidden" name="product_id" id="editProductId">
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Name</label>
-                                    <input type="text" name="new_name" id="editProductName" required class="form-control" placeholder="Product Name">
+
+                 <!-- Edit Product Modal -->
+<div id="editProductModal" class="modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;align-items:center;justify-content:center;background:rgba(0,0,0,0.15);">
+    <div class="modal-content" style="background:#fff;padding:28px 24px;border-radius:20px;max-width:420px;width:100%;position:relative;box-shadow:0 4px 18px rgba(0,0,0,0.1);">
+        <button id="closeEditProductModal" type="button" style="position:absolute;top:16px;right:16px;font-size:1.5rem;background:none;border:none;cursor:pointer;color:#555;">&times;</button>
+        <h2 style="margin-bottom:20px;font-size:1.25rem;font-weight:600;color:#333;">Edit Product</h2>
+        <form id="editProductForm" method="post">
+            <input type="hidden" name="product_id" id="editProductId">
+            <div class="form-group" style="margin-bottom:14px;">
+                <label style="display:block;margin-bottom:6px;font-size:0.95rem;color:#555;">Name</label>
+                <input type="text" name="new_name" id="editProductName" required class="form-control" placeholder="Product Name" style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:0.95rem;">
+            </div>
+            <div class="form-group" style="margin-bottom:14px;">
+                <label style="display:block;margin-bottom:6px;font-size:0.95rem;color:#555;">Price</label>
+                <input type="number" name="new_price" id="editProductPrice" step="0.01" required class="form-control" placeholder="Price" style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:0.95rem;">
+            </div>
+            <div class="form-group" style="margin-bottom:14px;">
+                <label style="display:block;margin-bottom:6px;font-size:0.95rem;color:#555;">Category</label>
+                <input type="text" name="new_category" id="editProductCategory" required class="form-control" placeholder="Category" style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:0.95rem;">
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%;background:#059669;color:#fff;padding:12px 0;border:none;border-radius:10px;font-size:1rem;cursor:pointer;font-weight:600;">Save Changes</button>
+        </form>
+        <div id="editProductResult" style="margin-top:14px;color:#059669;font-weight:600;font-size:0.95rem;"></div>
+    </div>
+</div>
                                 </div>
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Price</label>
-                                    <input type="number" name="new_price" id="editProductPrice" step="0.01" required class="form-control" placeholder="Price">
-                                </div>
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Category</label>
-                                    <input type="text" name="new_category" id="editProductCategory" required class="form-control" placeholder="Category">
-                                </div>
-                                <button type="submit" class="btn-primary" style="width:100%;">Save Changes</button>
-                            </form>
-                            <div id="editProductResult" style="margin-top:12px;color:#059669;font-weight:600;"></div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Active Location Section -->
                 <div id="active-location-section" class="content-section">
@@ -460,100 +478,122 @@ function fetch_products_with_sales() {
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <div class="action-menu" style="position:relative;">
-                                            <button class="action-btn" type="button">⋮</button>
-                                            <div class="dropdown-menu" style="display:none;position:absolute;z-index:10;right:0;">
-                                                <button type="button" class="menu-item edit-location-btn">Edit</button>
-                                                <button type="button" class="menu-item delete-location-btn">Delete</button>
-                                                <button type="button" class="menu-item toggle-location-status-btn">
-                                                    Set <?= $loc['status'] === 'open' ? 'Closed' : 'Open' ?>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
+                                <div class="action-menu" style="position: relative; display: inline-block;">
+                                    <button class="action-btn" type="button"
+                                        style="background-color: #f3f4f6; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 20px; cursor: pointer; transition: background 0.3s;">
+                                        ⋮
+                                    </button>
+                                    <div class="dropdown-menu"
+                                        style="display: none; position: absolute; z-index: 10; top: 0; right: 100%; background: white; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; padding: 8px; display: flex; flex-direction: row; gap: 8px;">
+                                        
+                                        <button type="button" class="menu-item edit-location-btn"
+                                            style="padding: 10px 16px; background: none; border: none; font-size: 14px; color: #374151; cursor: pointer;">
+                                            Edit
+                                        </button>
+                                        
+                                        <button type="button" class="menu-item delete-location-btn"
+                                            style="padding: 10px 16px; background: none; border: none; font-size: 14px; color: #ef4444; cursor: pointer;">
+                                            Delete
+                                        </button>
+                                        
+                                        <button type="button" class="menu-item toggle-location-status-btn"
+                                            style="padding: 10px 16px; background: none; border: none; font-size: 14px; color: #2563eb; cursor: pointer;">
+                                            Set <?= $loc['status'] === 'open' ? 'Closed' : 'Open' ?>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+
+
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
 
-                    <!-- Add Location Modal -->
-                    <div id="addLocationModal" class="modal" style="display:none;">
-                        <div class="modal-content" style="background:#fff;padding:32px 28px;border-radius:18px;max-width:420px;width:100%;position:relative;">
-                            <button id="closeAddLocationModal" type="button" style="position:absolute;top:18px;right:18px;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
-                            <h2 style="margin-bottom:18px;">Add New Location</h2>
-                            <form id="addLocationForm" method="post" action="database_connections/locations.php" enctype="multipart/form-data">
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Location Name</label>
-                                    <input type="text" name="name" required class="form-control" placeholder="Location Name">
-                                </div>
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Image</label>
-                                    <input type="file" name="image" accept="image/*" class="form-control">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label>Status</label>
-                                    <select name="status" class="form-control">
-                                        <option value="open" selected>Open</option>
-                                        <option value="closed">Closed</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn-primary" style="width:100%;">Add Location</button>
-                            </form>
-                            <div id="addLocationResult" style="margin-top:12px;color:#059669;font-weight:600;"></div>
-                        </div>
-                    </div>
-
-                    <!-- Edit Location Modal -->
-                    <div id="editLocationModal" class="modal" style="display:none;">
-                        <div class="modal-content" style="background:#fff;padding:32px 28px;border-radius:18px;max-width:420px;width:100%;position:relative;">
-                            <button id="closeEditLocationModal" type="button" style="position:absolute;top:18px;right:18px;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
-                            <h2 style="margin-bottom:18px;">Edit Location</h2>
-                            <form id="editLocationForm" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="id" id="editLocationId">
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Location Name</label>
-                                    <input type="text" name="name" id="editLocationName" required class="form-control" placeholder="Location Name">
-                                </div>
-                                <div class="form-group" style="margin-bottom:12px;">
-                                    <label>Image (leave blank to keep current)</label>
-                                    <input type="file" name="image" accept="image/*" class="form-control">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label>Status</label>
-                                    <select name="status" id="editLocationStatus" class="form-control">
-                                        <option value="open">Open</option>
-                                        <option value="closed">Closed</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn-primary" style="width:100%;">Save Changes</button>
-                            </form>
-                            <div id="editLocationResult" style="margin-top:12px;color:#059669;font-weight:600;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add Admin Section -->
-                <div id="add-admin-section" class="content-section">
-                    <h1>Add Admin</h1>
-                    <div class="table-container" style="max-width:420px;margin:auto;">
-                        <form id="addAdminForm" method="post" action="adding/add_admin.php" style="background:#fff;padding:32px 28px;border-radius:18px;">
-                            <div class="form-group" style="margin-bottom:16px;">
-                                <label for="adminUsername" style="font-weight:600;">Username</label>
-                                <input type="text" name="username" id="adminUsername" required class="form-control" placeholder="Enter username">
-                            </div>
-                            <div class="form-group" style="margin-bottom:16px;">
-                                <label for="adminPassword" style="font-weight:600;">Password</label>
-                                <input type="password" name="password" id="adminPassword" required class="form-control" placeholder="Enter password">
-                            </div>
-                            <button type="submit" class="btn-primary" style="width:100%;">Add Admin</button>
-                            <div id="addAdminResult" style="margin-top:12px;color:#059669;font-weight:600;"></div>
-                        </form>
-                    </div>
-                </div>
+                   <!-- Add Location Modal -->
+<div id="addLocationModal" class="modal" style="display:none;">
+    <div class="modal-content" style="background:#f9fafb;padding:36px 32px;border-radius:20px;max-width:460px;width:100%;position:relative;box-shadow:0 10px 25px rgba(0,0,0,0.1);">
+        <button id="closeAddLocationModal" type="button" style="position:absolute;top:16px;right:16px;font-size:1.5rem;background:none;border:none;cursor:pointer;color:#6b7280;">&times;</button>
+        <h2 style="margin-bottom:24px;font-size:1.4rem;color:#111827;">Add New Location</h2>
+        <form id="addLocationForm" method="post" action="database_connections/locations.php" enctype="multipart/form-data">
+            <div class="form-group" style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#374151;">Location Name</label>
+                <input type="text" name="name" required class="form-control" placeholder="Location Name" style="width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;">
             </div>
-        </main>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#374151;">Image</label>
+                <input type="file" name="image" accept="image/*" class="form-control" style="width:100%;padding:8px;border:1px solid #d1d5db;border-radius:8px;">
+            </div>
+            <div class="form-group" style="margin-bottom:20px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#374151;">Status</label>
+                <select name="status" class="form-control" style="width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;">
+                    <option value="open" selected>Open</option>
+                    <option value="closed">Closed</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%;padding:12px;background-color:#059669;color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;">Add Location</button>
+        </form>
+        <div id="addLocationResult" style="margin-top:14px;color:#10b981;font-weight:600;"></div>
     </div>
+</div>
+
+<!-- Edit Location Modal -->
+<div id="editLocationModal" class="modal" style="display:none;">
+    <div class="modal-content" style="background:#f9fafb;padding:36px 32px;border-radius:20px;max-width:460px;width:100%;position:relative;box-shadow:0 10px 25px rgba(0,0,0,0.1);">
+        <button id="closeEditLocationModal" type="button" style="position:absolute;top:16px;right:16px;font-size:1.5rem;background:none;border:none;cursor:pointer;color:#6b7280;">&times;</button>
+        <h2 style="margin-bottom:24px;font-size:1.4rem;color:#111827;">Edit Location</h2>
+        <form id="editLocationForm" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" id="editLocationId">
+            <div class="form-group" style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#374151;">Location Name</label>
+                <input type="text" name="name" id="editLocationName" required class="form-control" placeholder="Location Name" style="width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;">
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#374151;">Image (leave blank to keep current)</label>
+                <input type="file" name="image" accept="image/*" class="form-control" style="width:100%;padding:8px;border:1px solid #d1d5db;border-radius:8px;">
+            </div>
+            <div class="form-group" style="margin-bottom:20px;">
+                <label style="display:block;margin-bottom:6px;font-weight:500;color:#374151;">Status</label>
+                <select name="status" id="editLocationStatus" class="form-control" style="width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;">
+                    <option value="open">Open</option>
+                    <option value="closed">Closed</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%;padding:12px;background-color:#059669;color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;">Save Changes</button>
+        </form>
+        <div id="editLocationResult" style="margin-top:14px;color:#10b981;font-weight:600;"></div>
+    </div>
+</div>
+</div>
+
+               <!-- Add Admin Section -->
+<div id="add-admin-section" class="content-section">
+    <h1 style="text-align:center;margin-bottom:24px;">Add Admin</h1>
+    <div class="table-container" style="max-width:420px;margin:auto;">
+        <form id="addAdminForm" method="post" action="adding/add_admin.php" 
+              style="background:#fff;padding:32px 28px;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+            <div class="form-group" style="margin-bottom:16px;">
+                <label for="adminUsername" style="display:block;font-weight:600;margin-bottom:6px;">Username</label>
+                <input type="text" name="username" id="adminUsername" required 
+                       class="form-control" placeholder="Enter username" 
+                       style="width:100%;padding:10px 14px;border:1px solid #ccc;border-radius:8px;">
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label for="adminPassword" style="display:block;font-weight:600;margin-bottom:6px;">Password</label>
+                <input type="password" name="password" id="adminPassword" required 
+                       class="form-control" placeholder="Enter password" 
+                       style="width:100%;padding:10px 14px;border:1px solid #ccc;border-radius:8px;">
+            </div>
+            <button type="submit" class="btn-primary" 
+                    style="width:100%;background-color:#059669;color:#fff;padding:12px;border:none;border-radius:10px;font-weight:600;cursor:pointer;">
+                Add Admin
+            </button>
+            <div id="addAdminResult" style="margin-top:12px;color:#059669;font-weight:600;"></div>
+        </form>
+    </div>
+</div>
+
     <script>
   
     document.addEventListener('click', function() {
@@ -861,12 +901,4 @@ function fetch_products_with_sales() {
     <script src="js/main.js"></script>
 </body>
 </html>
-    });
-    </script>
-    <script src="js/main.js"></script>
-</body>
-</html>
-    </script>
-    <script src="js/main.js"></script>
-</body>
-</html>
+ 
