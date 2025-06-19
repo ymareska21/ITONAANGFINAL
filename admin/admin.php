@@ -105,6 +105,8 @@ function fetch_products_with_sales() {
     <title>Coffee Shop Admin Dashboard</title>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 
 </head>
 <body>
@@ -116,27 +118,27 @@ function fetch_products_with_sales() {
             </div>
             
             <nav class="nav-menu">
-                <a href="#" class="nav-item" data-section="live-orders">
-                    <span class="nav-icon">📊</span>
-                    <span>Live Orders</span>
-                </a>
-                <a href="#" class="nav-item" data-section="order-history">
-                    <span class="nav-icon">📜</span>
-                    <span>Order History</span>
-                </a>
-                <a href="#" class="nav-item active" data-section="products">
-                    <span class="nav-icon">☕</span>
-                    <span>Products</span>
-                </a>
-                <a href="#" class="nav-item" data-section="active-location">
-                    <span class="nav-icon">📦</span>
-                    <span>Active Location</span>
-                </a>
-                <a href="#" class="nav-item" data-section="add-admin">
-                    <span class="nav-icon">⚙️</span>
-                    <span>Add admin</span>
-                </a>
-            </nav>
+    <a href="#" class="nav-item" data-section="live-orders">
+        <span class="nav-icon"><i class="bi bi-lightning-charge-fill"></i></span>
+        <span>Live Orders</span>
+    </a>
+    <a href="#" class="nav-item" data-section="order-history">
+        <span class="nav-icon"><i class="bi bi-clock-history"></i></span>
+        <span>Order History</span>
+    </a>
+    <a href="#" class="nav-item active" data-section="products">
+        <span class="nav-icon"><i class="bi bi-box-seam"></i></span>
+        <span>Products</span>
+    </a>
+    <a href="#" class="nav-item" data-section="active-location">
+        <span class="nav-icon"><i class="bi bi-geo-alt-fill"></i></span>
+        <span>Active Location</span>
+    </a>
+    <a href="#" class="nav-item" data-section="add-admin">
+        <span class="nav-icon"><i class="bi bi-person-plus-fill"></i></span>
+        <span>Add Admin</span>
+    </a>
+</nav>
             
             <!-- Replace Busy Mode with Logout button -->
             <div class="sidebar-logout" style="padding: 15px 20px; border-top: 1px solid #eaedf0; margin-top: auto;">
@@ -897,6 +899,8 @@ function fetch_products_with_sales() {
             });
         }
     });
+
+    //edited 
     </script>
     <script src="js/main.js"></script>
 </body>
