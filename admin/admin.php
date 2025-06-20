@@ -488,7 +488,7 @@ function fetch_products_with_sales() {
                                           </button>
 
                                           <div class="dropdown-menu"
-                                              style="display: none; position: absolute; z-index: 10; left: -160px; top: 0; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 10px 16px; display: flex; flex-direction: row; gap: 12px; min-width: 150px;">
+                                              style="display: none; position: absolute; z-index: 10; left: -160px; top: 0; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 10px 16px; display: flex; flex-direction: row; gap: 12px;  width: 300px;">
                                               
                                               <button type="button" class="menu-item edit-product-btn"
                                                   style="flex: 1; padding: 10px 16px; background: none; border: none; font-size: 14px; color: #374151; cursor: pointer; white-space: nowrap;">
@@ -626,7 +626,7 @@ function fetch_products_with_sales() {
                                               ⋮
                                           </button>
                                           <div class="dropdown-menu"
-                                              style="display: none; position: absolute; z-index: 10; top: 0; right: 100%; background: white; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; padding: 8px; display: flex; flex-direction: row; gap: 8px;">
+                                              style="display: none; position: absolute; z-index: 10; top: 0; right: 100%; background: white; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; padding: 8px; display: flex; flex-direction: row; gap: 8px; width: 300px;">
                                               
                                               <button type="button" class="menu-item edit-location-btn"
                                                   style="padding: 10px 16px; background: none; border: none; font-size: 14px; color: #374151; cursor: pointer;">
